@@ -1,100 +1,86 @@
-# API Documentation
+## Запуск приложения через Docker
 
-## 🚀 Running the Application with Docker
-To avoid downloading MongoDB locally, you can run the application via Docker with the following command:
+Чтобы избежать локальной установки MongoDB, можно запустить приложение через Docker с помощью команды:
 
-```bash
+```sh
 docker-compose up
-📌 API Endpoints
-1️⃣ Filter by Book Title
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/books/?title=string
-Description: Filters books by title.
-2️⃣ Filter by Nationality
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/authors/?nationality=string
-Description: Filters authors by nationality.
-3️⃣ Sorting Books
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/books/?sortBy=price_asc
-Description: Sorts books by different parameters:
-price_asc — Sort by price ascending.
-price_desc — Sort by price descending.
-stock_asc — Sort by stock ascending.
-stock_desc — Sort by stock descending.
-4️⃣ Pagination
-Pagination is enabled by default for authors and books, but you can also customize it in the request.
+```
 
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/authors?page=2&limit=10
-5️⃣ User Registration & Authentication
-Without registration, you cannot access the list of users at:
+## API Эндпоинты
 
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/auth/users
-🔹 Register a User
-Method: POST
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/auth/register
-Request Body (Example):
-json
-Копировать
-Редактировать
+### 1. Фильтрация по названию книги
+```http
+GET http://localhost:3000/books/?title=string
+```
+
+### 2. Фильтрация по национальности автора
+```http
+GET http://localhost:3000/authors/?nationality=string
+```
+
+### 3. Сортировка книг
+
+| Параметр    | Описание                      |
+|------------|--------------------------------|
+| price_asc  | Сортировка по цене (возрастание)  |
+| price_desc | Сортировка по цене (убывание)    |
+| stock_asc  | Сортировка по наличию (возрастание) |
+| stock_desc | Сортировка по наличию (убывание)   |
+
+Пример запроса:
+```http
+GET http://localhost:3000/books/?sortBy=price_asc
+```
+
+### 4. Пагинация
+
+По умолчанию пагинация включена для авторов и книг, но можно управлять ею вручную:
+```http
+GET http://localhost:3000/authors?page=2&limit=10
+```
+
+### 5. Регистрация и аутентификация
+
+#### Получение списка пользователей (только для зарегистрированных)
+```http
+GET http://localhost:3000/auth/users
+```
+
+#### Регистрация пользователя
+```http
+POST http://localhost:3000/auth/register
+```
+
+Пример тела запроса:
+```json
 {
   "firstname": "John",
   "lastname": "Doe",
   "email": "johndoe@example.com",
   "password": "securepassword123"
 }
-🔹 Login a User
-Method: POST
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/auth/login
-Request Body (Example):
-json
-Копировать
-Редактировать
+```
+
+#### Вход в систему
+```http
+POST http://localhost:3000/auth/login
+```
+
+Пример тела запроса:
+```json
 {
   "email": "johndoe@example.com",
   "password": "securepassword123"
 }
-After logging in, you will receive a token. With this token, you can access the user list.
+```
 
-🔹 Get Users (Requires Authorization)
-Method: GET
-URL:
-bash
-Копировать
-Редактировать
-http://localhost:3000/auth/users
-Authorization: Add the token to the request headers:
-bash
-Копировать
-Редактировать
-Authorization: Bearer <your_token>
+После успешного входа в систему вы получите **токен**. Этот токен необходимо добавить в заголовки при запросе к защищённым эндпоинтам.
+
+#### Доступ к списку пользователей с токеном
+```http
+GET http://localhost:3000/auth/users
+```
+
+**Важно:** Токен необходимо добавить в заголовки запроса:
+```http
+Authorization: Bearer YOUR_TOKEN_HERE
