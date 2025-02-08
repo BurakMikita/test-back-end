@@ -1,57 +1,57 @@
-## Запуск приложения через Docker
+## Running the Application via Docker
 
-Чтобы избежать локальной установки MongoDB, можно запустить приложение через Docker с помощью команды:
+To avoid installing MongoDB locally, you can run the application via Docker using the command:
 
 ```sh
 docker-compose up
 ```
 
-## API Эндпоинты
+## API Endpoints
 
-### 1. Фильтрация по названию книги
+### 1. Filter by Book Title
 ```http
 GET http://localhost:3000/books/?title=string
 ```
 
-### 2. Фильтрация по национальности автора
+### 2. Filter by Author's Nationality
 ```http
 GET http://localhost:3000/authors/?nationality=string
 ```
 
-### 3. Сортировка книг
+### 3. Sorting Books
 
-| Параметр    | Описание                      |
-|------------|--------------------------------|
-| price_asc  | Сортировка по цене (возрастание)  |
-| price_desc | Сортировка по цене (убывание)    |
-| stock_asc  | Сортировка по наличию (возрастание) |
-| stock_desc | Сортировка по наличию (убывание)   |
+| Parameter    | Description                      |
+|-------------|----------------------------------|
+| price_asc   | Sort by price (ascending)       |
+| price_desc  | Sort by price (descending)      |
+| stock_asc   | Sort by stock (ascending)       |
+| stock_desc  | Sort by stock (descending)      |
 
-Пример запроса:
+Example request:
 ```http
 GET http://localhost:3000/books/?sortBy=price_asc
 ```
 
-### 4. Пагинация
+### 4. Pagination
 
-По умолчанию пагинация включена для авторов и книг, но можно управлять ею вручную:
+Pagination is enabled by default for authors and books, but you can also specify it manually:
 ```http
 GET http://localhost:3000/authors?page=2&limit=10
 ```
 
-### 5. Регистрация и аутентификация
+### 5. Registration and Authentication
 
-#### Получение списка пользователей (только для зарегистрированных)
+#### Retrieve User List (Registered Users Only)
 ```http
 GET http://localhost:3000/auth/users
 ```
 
-#### Регистрация пользователя
+#### User Registration
 ```http
 POST http://localhost:3000/auth/register
 ```
 
-Пример тела запроса:
+Example request body:
 ```json
 {
   "firstname": "John",
@@ -61,12 +61,12 @@ POST http://localhost:3000/auth/register
 }
 ```
 
-#### Вход в систему
+#### User Login
 ```http
 POST http://localhost:3000/auth/login
 ```
 
-Пример тела запроса:
+Example request body:
 ```json
 {
   "email": "johndoe@example.com",
@@ -74,13 +74,14 @@ POST http://localhost:3000/auth/login
 }
 ```
 
-После успешного входа в систему вы получите **токен**. Этот токен необходимо добавить в заголовки при запросе к защищённым эндпоинтам.
+Upon successful login, you will receive a **token**. This token must be added to the headers when making requests to protected endpoints.
 
-#### Доступ к списку пользователей с токеном
+#### Access User List with Token
 ```http
 GET http://localhost:3000/auth/users
 ```
 
-**Важно:** Токен необходимо добавить в заголовки запроса:
+**Important:** The token must be included in the request headers:
 ```http
 Authorization: Bearer YOUR_TOKEN_HERE
+```
