@@ -1,60 +1,100 @@
+# API Documentation
 
-to avoid downloading mongoDB locally, you can open the application via docker with the command
+## 🚀 Running the Application with Docker
+To avoid downloading MongoDB locally, you can run the application via Docker with the following command:
 
-# docker-compose up
+```bash
+docker-compose up
+📌 API Endpoints
+1️⃣ Filter by Book Title
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/books/?title=string
+Description: Filters books by title.
+2️⃣ Filter by Nationality
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/authors/?nationality=string
+Description: Filters authors by nationality.
+3️⃣ Sorting Books
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/books/?sortBy=price_asc
+Description: Sorts books by different parameters:
+price_asc — Sort by price ascending.
+price_desc — Sort by price descending.
+stock_asc — Sort by stock ascending.
+stock_desc — Sort by stock descending.
+4️⃣ Pagination
+Pagination is enabled by default for authors and books, but you can also customize it in the request.
 
-## Api
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/authors?page=2&limit=10
+5️⃣ User Registration & Authentication
+Without registration, you cannot access the list of users at:
 
-# 1. filter by book title
-GET http://localhost:3000/books/?title=string
-
-
-# 2.  filter by nationality
-GET http://localhost:3000/authors/?nationality=string
-
-3. 
-price_asc — sort by price ascending.
-price_desc — sort by price descending.
-stock_asc — sort by stock ascending.
-stock_desc — sort by stock descending.
-
-GET http://localhost:3000/books/?sortBy=price_asc
-
-# 4. Pagination is done by default for authors and books but you can also add it in the request
-
-GET http://localhost:3000/authors?page=2&limit=10
-
-# 5.There is also registration and without registration you will not be able to see all users at this link
-
-GET http://localhost:3000/auth/users
-
-You can register using this API
-
-POST http://localhost:3000/auth/register
-
-
-you definitely need to add it to your body 
-example
-``` {
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/auth/users
+🔹 Register a User
+Method: POST
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/auth/register
+Request Body (Example):
+json
+Копировать
+Редактировать
+{
   "firstname": "John",
   "lastname": "Doe",
   "email": "johndoe@example.com",
   "password": "securepassword123"
-} ```
-
-and to enter
-
- POST http://localhost:3000/auth/login
-
-you definitely need to add it to your body 
-example
-``` {
+}
+🔹 Login a User
+Method: POST
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/auth/login
+Request Body (Example):
+json
+Копировать
+Редактировать
+{
   "email": "johndoe@example.com",
   "password": "securepassword123"
-} ```
+}
+After logging in, you will receive a token. With this token, you can access the user list.
 
-after which you will receive a token and with this token you can follow the link
-
-GET http://localhost:3000/auth/users
-
-but the token will definitely need to be added to the authorization!!!
+🔹 Get Users (Requires Authorization)
+Method: GET
+URL:
+bash
+Копировать
+Редактировать
+http://localhost:3000/auth/users
+Authorization: Add the token to the request headers:
+bash
+Копировать
+Редактировать
+Authorization: Bearer <your_token>
